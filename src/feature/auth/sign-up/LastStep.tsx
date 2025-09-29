@@ -84,9 +84,9 @@ function LastStep() {
               className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
             >
              Create Account
-               {isPending || loading && (
-              <Loader className=' animate-spin '/>
-             )}
+             {(isPending || loading) && (
+            <Loader className='animate-spin ml-2'/>
+          )}
             </Button>
              {/* <Link 
                       className='w-fit flex items-center gap-3 group hover:underline text-sm m-auto'

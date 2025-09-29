@@ -64,9 +64,9 @@ function FirstStep() {
             >
               Next Step
 
-                {isPending || loading && (
-              <Loader className=' animate-spin '/>
-             )}
+                {(isPending || loading) && (
+            <Loader className='animate-spin ml-2'/>
+          )}
             </Button>
       </SignUpForm>
     </AuthLayout>
