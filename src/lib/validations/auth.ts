@@ -12,7 +12,7 @@ export const registerCreateSchema = z.object({
   email: z.string().min(3, "email is required"),
   password: z.string().min(8, "password min 8"),
   password_confirmation: z.string().min(8, "password min 8"),
-  role: z.enum(RoleUserValue).optional().default("user"),
+  role: z.enum(RoleUserValue).optional(),
 });
 
 

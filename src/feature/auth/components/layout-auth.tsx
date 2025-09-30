@@ -11,10 +11,11 @@ type AuthLayoutProps = {
     title?: string;
     description?: string;
     quote?: string;
-    formType?: "sign_in" | "sign_up";
+    className?: string
+    formType?: "login" | "register";
 }
  
-export const AuthLayout = ({  formType   , title = `Welcome to sundress`  ,  quote = `Design and dev partner for startups and founders.`  ,description = `Welcome to Sundress — Let's get started`  , ...props } : AuthLayoutProps) => {
+export const AuthLayout = ({  formType , className   , title = `Welcome to sundress`  ,  quote = `Design and dev partner for startups and founders.`  ,description = `Welcome to Sundress — Let's get started`  , ...props } : AuthLayoutProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -60,7 +61,7 @@ export const AuthLayout = ({  formType   , title = `Welcome to sundress`  ,  quo
     }
   };
  
-  const formTypeReverse = formType == 'sign_up' ? 'sign_in' : 'sign_up'
+  const formTypeReverse = formType == 'register' ? 'login' : 'register'
   return (
     <div className=" h-full flex items-center justify-center overflow-hidden p-4l">
       <div className=" w-full relative max-w-5xl overflow-hidden flex flex-col md:flex-row shadow-xl">
@@ -102,7 +103,7 @@ export const AuthLayout = ({  formType   , title = `Welcome to sundress`  ,  quo
             <div className="text-center mt-4  text-gray-600 text-sm">
               Already have account?{" "}
               <Link href={`/${formTypeReverse}`} className="text-secondary-foreground capitalize font-medium underline">
-                   {formTypeReverse?.replace("_","-")}
+                   {formTypeReverse}
               </Link>
             </div>
     )}

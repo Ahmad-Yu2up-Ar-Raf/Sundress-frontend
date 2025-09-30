@@ -3,13 +3,20 @@
 import { Toaster } from '@/components/ui/fragments/sonner';
 import { ProgressProvider } from '@bprogress/next/app';
 import { AnimatePresence } from 'framer-motion';
-import SiteFooter from '../feature/layout/SiteFooter';
-import SiteHeader from '../feature/layout/SiteHeader';
+import SiteFooter from '../layout/SiteFooter';
+import SiteHeader from '../layout/SiteHeader';
 import ReactLenis from 'lenis/react'
 
 
+import ReactQueryProvider from '@/lib/ReactQueryProvider';
+
+
 const Providers = ({ children }: { children: React.ReactNode }) => {
+ 
+
     return (
+        <ReactQueryProvider>
+
         <ReactLenis root>
             <ProgressProvider 
                 height="2px"
@@ -22,7 +29,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 }}
                 shallowRouting
             >
-            
+
+
                 <AnimatePresence mode='wait'>
                     <div 
                         key="main-content" 
@@ -33,12 +41,14 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                         </div>
                     </div>
                 </AnimatePresence>
+    
                 
                 <SiteFooter/>
                 <SiteHeader/>
                 <Toaster/>
             </ProgressProvider>
         </ReactLenis>
+        </ReactQueryProvider>
     );
 };
 
