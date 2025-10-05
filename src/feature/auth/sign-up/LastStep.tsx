@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { AuthLayout } from '../components/layout-auth'
 import SignUpForm from '../components/forms/signup/LastStep'
-import { Button } from '../../../components/ui/fragments/button'
+import { Button, buttonVariants } from '../../../components/ui/fragments/button'
 import { registerCreateSchema} from '@/lib/validations/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,9 @@ import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Loader } from 'lucide-react'
 import { useAuth } from '@/hooks/actions/useAuth'
 import Link from 'next/link'
-
+import { cn } from '@/lib/utils'
+import clsx from 'clsx'
+import { usePathname } from 'next/navigation';
 const FormLastStep = registerCreateSchema.pick({
   role: true,
 })
@@ -23,13 +25,13 @@ type FormLastStepSchema = z.infer<typeof FormLastStep>;
 function LastStep() {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  
+
   const name = useOnboardingStore((state) => state.name);
   const email = useOnboardingStore((state) => state.email);
   const password = useOnboardingStore((state) => state.password);
   const password_confirmation = useOnboardingStore((state) => state.password_confirmation);
   const hasHydrated = useOnboardingStore((state) => state._hasHydrated);
-
+  const setData = useOnboardingStore((state) => state.setData);
   const [isPending, startTransition] = React.useTransition();
   const [loading, setLoading] = React.useState(false);  
   
@@ -102,7 +104,7 @@ const [status, setStatus] = useState<string | null>(null)
               toast.error(result.message || "register failed", { id: "register" })
             }
 
-            console.log(result)
+  
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Network error. Please check your connection.");
@@ -113,12 +115,11 @@ const [status, setStatus] = useState<string | null>(null)
 
 
 
-
   React.useEffect(() => {
       if (!loading && status) {
         form.reset()
       }
-    }, [loading, status,  form]);
+    }, [loading, status,  form , router]);
   // Loading state while hydrating
   if (!isClient || !hasHydrated) {
     return (
@@ -153,9 +154,9 @@ const [status, setStatus] = useState<string | null>(null)
              >
                        
                 <Link
-                
+                   
                             href={'/register/password'}
-                             className='rounded-lg justify-center gap-2 flex items-center  w-full'
+                             className={cn(buttonVariants({ variant: "link"}))}
                             >
                                {( loading) ? (
                     <Loader className='animate-spin ml-2'/>

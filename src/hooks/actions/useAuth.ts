@@ -143,10 +143,10 @@ return { success: true, message: 'Login successful!' }
       router.push('/login')
     }
 
-    if (middleware === 'auth' && user && !user.email_verified_at && !disable.includes(pathName)) {
-      // Redirect unverified users
-      router.push('/verify-email')
-    }
+    // if (middleware === 'auth' && user && !user.email_verified_at && !disable.includes(pathName)) {
+    //   // Redirect unverified users
+    //   router.push('/verify-email')
+    // }
   }, [user, middleware, redirectIfAuthenticated , pathName])
 
   return {

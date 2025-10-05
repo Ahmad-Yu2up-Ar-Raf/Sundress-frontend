@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import z from 'zod'
 import { useOnboardingStore } from '@/hooks/use-store-signup'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Loader } from 'lucide-react'
 
 const FormFirstStep = registerCreateSchema.pick({
@@ -25,12 +25,18 @@ function FirstStep() {
   const email = useOnboardingStore((state) => state.email);
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-
+     const pathname = usePathname();
   const setData = useOnboardingStore((state) => state.setData);
   const hasHydrated = useOnboardingStore((state) => state._hasHydrated);
 
   const [isPending, startTransition] = React.useTransition();
   const [loading, setLoading] = React.useState(false);  
+      React.useEffect(() => {
+       setData({
+        name: undefined,
+        email: undefined,
+       })
+    }, [pathname]) 
   
   const form = useForm<FormFirstStepSchema>({
     mode: "onSubmit", 

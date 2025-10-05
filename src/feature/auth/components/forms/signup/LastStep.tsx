@@ -83,7 +83,7 @@ function SignUpForm<T extends FieldValues, >({
               </span>
             </Label>
             <p id={`${i}-1-description`} className="text-xs text-muted-foreground">
-              {item.desckription}
+              {item.description}
             </p>
           </div>
         </FormLabel>

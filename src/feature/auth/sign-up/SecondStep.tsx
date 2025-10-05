@@ -3,16 +3,17 @@
 import React, { useEffect, useState } from 'react'
 import { AuthLayout } from '../components/layout-auth'
 import SignUpForm from '../components/forms/signup/SecondStep'
-import { Button } from '../../../components/ui/fragments/button'
+import { Button, buttonVariants } from '../../../components/ui/fragments/button'
 import { registerCreateSchema } from '@/lib/validations/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import z from 'zod'
 import { useOnboardingStore } from '@/hooks/use-store-signup'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Loader } from 'lucide-react'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 const FormSecondStep = registerCreateSchema.pick({
   password: true,
@@ -32,7 +33,16 @@ function SecondStep() {
 
   const [isPending, startTransition] = React.useTransition();
   const [loading, setLoading] = React.useState(false);  
-  
+     const pathname = usePathname();
+     React.useEffect(() => {
+     setData({
+      password: undefined,
+      password_confirmation: undefined,
+     })
+  }, [pathname]) 
+
+
+
   const form = useForm<FormSecondStepSchema>({
     mode: "onSubmit", 
     defaultValues: {
@@ -104,7 +114,7 @@ function SecondStep() {
                 <Link
                 
                             href={'/register'}
-                             className='rounded-lg justify-center gap-2 flex items-center  w-full'
+                              className={cn(buttonVariants({ variant: "link"}))}
                             >
                                {( loading) ? (
                     <Loader className='animate-spin ml-2'/>
