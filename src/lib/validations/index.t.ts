@@ -58,7 +58,7 @@ export const productsSchema = z.object({
   thumbnail_image: imageSchema,
   description: z.string().optional(),
   stock: z.coerce.number().min(2, "Harga is required"),
-   is_wishlisted: z.boolean().optional(),
+   is_whislisted: z.boolean().optional(),
   category: z.enum(CategoryProductsValues).optional(),
 
   created_at: z.coerce.date().optional(),

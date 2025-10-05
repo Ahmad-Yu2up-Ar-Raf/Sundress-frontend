@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { ProductsSchema } from '@/lib/validations/index.t';
 
 import { useEffect, useState } from "react";
-import { useProducts } from "@/hooks/actions/useProducts";
+import { ApiResponse, useProducts } from "@/hooks/actions/useProducts";
 import { SkeletonCard } from '@/components/ui/fragments/CardSkeletons';
 
 
@@ -30,13 +30,13 @@ type ProductsType = {
 
 function Products() {
   const { getProducts } = useProducts();
-  const [DataProducts, setData] = useState<ProductsSchema[]>([]);
+  const [DataProducts, setData] = useState<ApiResponse>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const res = await getProducts();
-      if (res?.data) setData(res.data);
+      if (res) setData(res);
       setLoading(false);
     })();
   }, []);
@@ -81,7 +81,7 @@ function Products() {
           }}
         >
           <CarouselContent className="ml-0 relative cursor-grab  2xl:mr-[max(0rem,calc(50vw-700px))]">
-            {DataProducts.map((item , i) => (
+            {DataProducts?.data!.map((item , i) => (
               <CarouselItem
                 key={i}
                 className={cn("max-w-[230px]  relative z-40  md:max-w-[300px]" , 

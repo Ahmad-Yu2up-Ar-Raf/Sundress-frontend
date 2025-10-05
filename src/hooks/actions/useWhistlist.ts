@@ -35,11 +35,14 @@ export const useWhistlist = () => {
   };
 
 
- const addWhistlist = async (props: WhistlistSchema)  => {
+ const addWhistlist = async ({EndPoint , data  } : {
+  data: WhistlistSchema 
+  EndPoint: string
+ })  => {
     try {
 
       
-      const response = await axios.post('/api/whistlist', props)
+      const response = await axios.post(EndPoint, data)
 
       
   

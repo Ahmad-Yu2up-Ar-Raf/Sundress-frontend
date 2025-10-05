@@ -58,7 +58,7 @@ const Price = formatIDR(Product.price)
     
      
      
-       
+       const EndPoint : string = Product.is_whislisted ? '/api/unwhistlist' : '/api/whistlist'
       
       
      toast.loading("Adding to wishlist...", { id: "adding" })
@@ -69,8 +69,10 @@ const Price = formatIDR(Product.price)
     
     
       const result = await  addWhistlist({
-          product_id : Product.id
-            
+          data: {
+             product_id : Product.id
+          },
+          EndPoint:   EndPoint
         })
     
     
@@ -112,13 +114,17 @@ const Price = formatIDR(Product.price)
     <Tooltip>
 
       <TooltipTrigger   onClick={onSubmit}   render={  
-        <Button  size={"sm"} variant={"ghost"} className=" hover:bg-primary   transition-all duration-300     z-40    text-accent   md:py-5   rounded-full">
+        <Button  size={"sm"} variant={"ghost"} className={cn("  hover:bg-primary    z-40    text-accent   md:py-5   rounded-full" ,
+
+
+           Product.is_whislisted ? 'hover:text-primary  transition-all duration-300   ease-out   [&_svg]:fill-primary hover:[&_svg]:fill-none  hover:[&_svg]:text-accent' : ''
+        )}>
 {loading || isPending ? (
   <Spinner  className="     size-4.5 text-white dark:text-black"/>
 ) : (
   <Heart  className={cn("     " ,
 
-    Product.is_wishlisted ? 'fill-primary size-5 text-primary ' : 'size-4.5 text-white dark:text-black'
+    Product.is_whislisted ? ' size-5 text-primary ' : 'size-4.5 text-white dark:text-black'
   )}/>
 
 )}
@@ -127,7 +133,7 @@ const Price = formatIDR(Product.price)
        
       >
         
-        <p>Add to whishlist</p>
+        <p>{ Product.is_whislisted ? 'Remove from Whistlist' :  'Add to whishlist'}</p>
       </TooltipPanel>
 
     </Tooltip>

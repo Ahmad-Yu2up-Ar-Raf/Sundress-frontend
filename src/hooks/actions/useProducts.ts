@@ -3,8 +3,9 @@ import axios from '@/lib/axios';
 import { ProductsSchema } from "@/lib/validations/index.t";
 import { Meta } from "@/types";
 
-interface ApiResponse {
+export interface ApiResponse {
   status: boolean;
+  user_idssd: number,
   message: string;
   meta?: Meta;
   data?: ProductsSchema[];
