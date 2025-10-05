@@ -11,8 +11,9 @@ import { toast } from 'sonner';
 import z from 'zod'
 import { useOnboardingStore } from '@/hooks/use-store-signup'
 import { useRouter } from 'next/navigation'
-import { Loader } from 'lucide-react'
-import { useAuth } from '@/hooks/useAuth'
+import { ChevronLeft, ChevronRight, Loader } from 'lucide-react'
+import { useAuth } from '@/hooks/actions/useAuth'
+import Link from 'next/link'
 
 const FormLastStep = registerCreateSchema.pick({
   role: true,
@@ -65,7 +66,7 @@ function LastStep() {
   
   const [errors, setErrors]  = useState<string[]>([])
 
-
+const [status, setStatus] = useState<string | null>(null)
 
 
 
@@ -83,15 +84,25 @@ function LastStep() {
     setLoading(true)
     
     try {
-    
-      register({
-           role: data.role,
-            name,
-            email,
-            password,
-            password_confirmation,
-            setErrors,
+    setLoading(true)
+    toast.loading("Signup in...", { id: "register" })
+    const result = await  register({
+     name: name!,
+     email: email!,
+     password: password!,
+     password_confirmation: password_confirmation!,
+     role: data.role as 'seller' | 'buyer',
+      
+          
       })
+
+        if (result.success) {
+              toast.success(result.message || "Welcome back!", { id: "register" })
+            } else {
+              toast.error(result.message || "register failed", { id: "register" })
+            }
+
+            console.log(result)
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Network error. Please check your connection.");
@@ -100,10 +111,18 @@ function LastStep() {
     }
   }
 
+
+
+
+  React.useEffect(() => {
+      if (!loading && status) {
+        form.reset()
+      }
+    }, [loading, status,  form]);
   // Loading state while hydrating
   if (!isClient || !hasHydrated) {
     return (
-      <AuthLayout title='Select Role' description='Select your role to get started'>
+      <AuthLayout title='Select Role' description='Select your role to get started' className=' lg:max-w-none h-dvh '>
         <div className="flex items-center justify-center py-8">
           <Loader className="animate-spin size-6" />
         </div>
@@ -112,18 +131,40 @@ function LastStep() {
   }
 
   return (
-    <AuthLayout title='Select Role' description='Select your role to get started'>
+    <AuthLayout  title='Select Role' description='Select your role to get started' className=' lg:max-w-none h-dvh '>
       <SignUpForm form={form} isPending={isPending || loading} onSubmit={onSubmit}>
+       <div className=" w-full space-y-5">
+
         <Button
           disabled={isPending || loading}
           type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="w-full  transition-colors"
         >
-          Create Account
-          {(isPending || loading) && (
+          Next 
+          {(isPending || loading) ? (
             <Loader className='animate-spin ml-2'/>
-          )}
+          ): <ChevronRight className=''/>}
         </Button>
+     <Button
+             disabled={loading}
+          variant={"link"}
+                      type="button"
+                       className='rounded-lg flex justify-center items-center  w-full'
+             >
+                       
+                <Link
+                
+                            href={'/register/password'}
+                             className='rounded-lg justify-center gap-2 flex items-center  w-full'
+                            >
+                               {( loading) ? (
+                    <Loader className='animate-spin ml-2'/>
+                  ) : <ChevronLeft className=''/>}
+                            Back
+                        </Link>
+                  </Button>
+        
+          </div>
       </SignUpForm>
     </AuthLayout>
   )

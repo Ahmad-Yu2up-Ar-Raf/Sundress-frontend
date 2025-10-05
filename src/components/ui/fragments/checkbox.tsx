@@ -1,32 +1,108 @@
 "use client"
 
-import * as React from "react"
+import React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
-import { CheckIcon } from "lucide-react"
+import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
-function Checkbox({
+export function Checkbox({
   className,
+  checked: checkedProp,
+  onCheckedChange: setCheckedProp,
+  disabled,
+  defaultChecked,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+  const [_checked, _setChecked] =
+    React.useState<CheckboxPrimitive.CheckedState>(defaultChecked ?? false)
+
+  const checked = checkedProp ?? _checked
+
+  const setChecked = React.useCallback(
+    (
+      value:
+        | CheckboxPrimitive.CheckedState
+        | ((value: CheckboxPrimitive.CheckedState) => boolean),
+    ) => {
+      const checkedState = typeof value === "function" ? value(checked) : value
+      if (setCheckedProp) {
+        setCheckedProp(checkedState)
+      } else {
+        _setChecked(checkedState)
+      }
+    },
+    [setCheckedProp, checked],
+  )
+
   return (
-    <CheckboxPrimitive.Root
-      data-slot="checkbox"
-      className={cn(
-        "peer border-neutral-200 dark:bg-neutral-200/30 data-[state=checked]:bg-neutral-900 data-[state=checked]:text-neutral-50 dark:data-[state=checked]:bg-neutral-900 data-[state=checked]:border-neutral-900 focus-visible:border-neutral-950 focus-visible:ring-neutral-950/50 aria-invalid:ring-red-500/20 dark:aria-invalid:ring-red-500/40 aria-invalid:border-red-500 size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-800 dark:dark:bg-neutral-800/30 dark:data-[state=checked]:bg-neutral-50 dark:data-[state=checked]:text-neutral-900 dark:dark:data-[state=checked]:bg-neutral-50 dark:data-[state=checked]:border-neutral-50 dark:focus-visible:border-neutral-300 dark:focus-visible:ring-neutral-300/50 dark:aria-invalid:ring-red-900/20 dark:dark:aria-invalid:ring-red-900/40 dark:aria-invalid:border-red-900",
-        className
-      )}
-      {...props}
+    <motion.div
+      whileTap={disabled ? undefined : { scale: 0.95 }}
+      whileHover={disabled ? undefined : { scale: 1.05 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+      }}
     >
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        className="flex items-center justify-center text-current transition-none"
+      <CheckboxPrimitive.Root
+        checked={checked}
+        onCheckedChange={(value) => setChecked(!!value)}
+        disabled={disabled}
+        className={cn(
+          "border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:border-primary/20 flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-all duration-200 outline-none hover:shadow-sm focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+          className,
+        )}
+        {...props}
       >
-        <CheckIcon className="size-3.5" />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+        <motion.svg
+          className="h-full w-full"
+          viewBox="0 0 12 12"
+          fill="none"
+          initial={false}
+          style={{ scale: 1, opacity: 1 }}
+        >
+          <motion.path
+            d="M2.5 6L4.5 8L9.5 3"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            animate={checked ? "checked" : "unchecked"}
+            variants={{
+              checked: {
+                pathLength: 1,
+                strokeDasharray: "1 1",
+                opacity: 1,
+                transition: {
+                  pathLength: { duration: 0.2, ease: "easeInOut", delay: 0.1 },
+                  strokeDasharray: {
+                    duration: 0.2,
+                    ease: "easeInOut",
+                    delay: 0.1,
+                  },
+                  opacity: { duration: 0.1, ease: "easeInOut" },
+                },
+              },
+              unchecked: {
+                pathLength: 0,
+                strokeDasharray: "0 1",
+                opacity: 0,
+                transition: {
+                  pathLength: { duration: 0.3, ease: "easeInOut" },
+                  strokeDasharray: {
+                    duration: 0.3,
+                    ease: "easeInOut",
+                    delay: 0.1,
+                  },
+                  opacity: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
+                },
+              },
+            }}
+          />
+        </motion.svg>
+      </CheckboxPrimitive.Root>
+    </motion.div>
   )
 }
-
-export { Checkbox }

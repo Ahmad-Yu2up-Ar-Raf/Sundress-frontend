@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { Loader } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/actions/useAuth';
 
 
 
@@ -39,33 +39,46 @@ function SignIn() {
   const [status, setStatus] = useState<string | null>(null)
 
 
-  function onSubmit(input: LoginSchema ) {
+  async function onSubmit(input: LoginSchema) {
     try {
-                setLoading(true)
-        startTransition(async () => { 
-          login({
-           ...input,
-            setErrors,
-            setStatus,
-        })
-        })
- 
-   } catch (error) {
-        console.error("Form submission error", error);
-        toast.error("Network error. Please check your connection.");
-      } finally {
-        setLoading(false);
+      setLoading(true)
+      toast.loading("Signing in...", { id: "login" })
+      
+      const result = await login({
+        ...input,
+
+  
+      })
+
+      if (result.success) {
+        toast.success(result.message || "Welcome back!", { id: "login" })
+      } else {
+        toast.error(result.message || "Login failed", { id: "login" })
       }
+    } catch (error) {
+      console.error("Form submission error", error)
+      toast.error("Network error. Please check your connection.", { id: "login" })
+    } finally {
+      setLoading(false)
+    }
   }
 
 
+
+ React.useEffect(() => {
+    if (!loading && status) {
+      form.reset()
+    }
+  }, [loading, status, form]);
+
+
   return (
-    <AuthLayout   formType="login" >
+    <AuthLayout  disabled={loading} numberOfIterations={10}  formType="login" className=' lg:max-w-none h-dvh '>
       <SignInForm form={form} isPending={isPending || loading} onSubmit={onSubmit}>
       <Button
           disabled={isPending || loading}
           type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="w-full  transition-colors"
         >
           Sign In
           {(isPending || loading) && (

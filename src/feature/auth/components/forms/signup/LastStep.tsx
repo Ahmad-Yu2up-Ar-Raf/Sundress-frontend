@@ -16,7 +16,7 @@ import {
 } from "react-hook-form"
 
 import { RadioGroup, RadioGroupItem } from '@/components/ui/fragments/radio-group';
-import { RoleUser } from '@/config/enum-type';
+import { RoleUser } from '@/config/enum/Roles';
 import { Label } from '@/components/ui/fragments/label';
 interface TaskFormProps<T extends FieldValues, >
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
@@ -37,7 +37,7 @@ function SignUpForm<T extends FieldValues, >({
       <form onSubmit={form.handleSubmit(props.onSubmit)} className=" space-y-6 *:
       
       
-  [&_input]:text-sm [&_input]:w-full [&_input]:py-2 [&_input]:px-3 [&_input]:border [&_input]:rounded-lg [&_input]:focus:outline-none [&_input]:focus:ring-1 [&_input]:bg-white [&_input]:text-black [&_input]:focus:ring-orange-500
+  [&_input]:text-sm [&_input]:w-full [&_input]:py-2 [&_input]:px-3 [&_input]:border [&_input]:rounded-lg [&_input]:focus:outline-none [&_input]:focus:ring-1 [&_input]:bg-background [&_input]:text-black [&_input]:focus:ring-orange-500
       ">
       
 
@@ -46,11 +46,13 @@ function SignUpForm<T extends FieldValues, >({
                control={form.control}
          name={"role" as FieldPath<T>}
                render={({ field }) => (
-                 <FormItem>
-                   <FormLabel>Role </FormLabel>
+                 <FormItem 
+                 
+                 >
+                   <FormLabel className=' sr-only'>Role </FormLabel>
                    <FormControl>
                         <RadioGroup  
-                        
+                           disabled={isPending}
                             onValueChange={field.onChange}
                         className="gap-2 " defaultValue="user">
       {RoleUser.map((item, i ) => (
@@ -62,6 +64,7 @@ function SignUpForm<T extends FieldValues, >({
         <FormControl>
 
         <RadioGroupItem
+        disabled={isPending}
           value={item.value}
           id={`${i}-1`}
           aria-describedby={`${i}-1-description`}
@@ -74,9 +77,9 @@ function SignUpForm<T extends FieldValues, >({
        )} 
           <div className="grid grow gap-2 cursor-pointer">
             <Label htmlFor={`${i}-1`}>
-              {item.label}{" "}
+              {item.label} {" "}
               <span className="text-xs font-normal leading-[inherit] text-muted-foreground">
-                {item.subLabel}
+             {"("}   {item.subLabel}{")"}
               </span>
             </Label>
             <p id={`${i}-1-description`} className="text-xs text-muted-foreground">

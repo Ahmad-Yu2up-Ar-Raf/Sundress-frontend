@@ -1,4 +1,4 @@
-import { RoleUser, RoleUserValue } from "@/config/enum-type";
+import { RoleUser, RoleUserValue } from "@/config/enum/Roles";
 import * as z from "zod";
 
 export const loginSchema = z.object({

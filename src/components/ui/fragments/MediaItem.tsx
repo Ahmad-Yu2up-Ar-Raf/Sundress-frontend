@@ -3,13 +3,15 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import Image from 'next/image';
 
-import { DataFile } from '@/types';
+
 import { cn } from '@/lib/utils';
+import { Spinner } from './spinner';
 
 
 
-const MediaItem = ({ item, className, onClick, style }: { 
-    item: DataFile, 
+const MediaItem = ({ webViewLink, className, mediaType = "image", onClick, style  }: { 
+    webViewLink: string, 
+    mediaType?: "image" | "video"
     className?: string, 
     onClick?: () => void,
     style?: React.CSSProperties 
@@ -94,9 +96,11 @@ const MediaItem = ({ item, className, onClick, style }: {
         setImageLoaded(true);
     };
 
-    if (item.mediaType === 'video') {
+    if (mediaType === "video") {
         return (
-            <div className={`${className}   w-full    relative overflow-hidden`} style={style}>
+            <div  
+       
+            className={`${className}   w-full    relative overflow-hidden`} style={style}>
                 <video
                     ref={videoRef}
                     className={cn(
@@ -116,11 +120,11 @@ const MediaItem = ({ item, className, onClick, style }: {
                         willChange: 'transform',
                     }}
                 >
-                    <source src={item.webViewLink} type="video/mp4"  />
+                    <source src={webViewLink} type="video/mp4"  />
                 </video>
                 {isBuffering && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-accent-foreground/10">
+                        <Spinner className="w-6 h-6  text-accent rounded-full animate-spin" />
                     </div>
                 )}
             </div>
@@ -130,8 +134,8 @@ const MediaItem = ({ item, className, onClick, style }: {
     return (
         <div className={`${className}  relative overflow-hidden`} style={style}>
             <Image
-                src={item.webViewLink}
-                alt={item.webViewLink}
+                src={webViewLink}
+                alt={webViewLink}
                 fill
                 quality={100}
                 className="h-full   relative   object-cover  object-top inset-0  w-full"
@@ -141,8 +145,8 @@ const MediaItem = ({ item, className, onClick, style }: {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
             {!imageLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800">
-                    <div className="w-6 h-6 border-2 border-neutral-300 border-t-neutral-600 rounded-full animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center bg-accent-foreground">
+                    <Spinner className="w-6 h-6 text-accent rounded-full animate-spin" />
                 </div>
             )}
         </div>

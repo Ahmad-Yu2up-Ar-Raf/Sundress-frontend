@@ -19,7 +19,10 @@ const FormFirstStep = registerCreateSchema.pick({
 })
 type FormFirstStepSchema = z.infer<typeof FormFirstStep>;
 
+
 function FirstStep() {
+    const name = useOnboardingStore((state) => state.name);
+  const email = useOnboardingStore((state) => state.email);
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
@@ -32,8 +35,8 @@ function FirstStep() {
   const form = useForm<FormFirstStepSchema>({
     mode: "onSubmit", 
     defaultValues: {
-      email: "",
-      name: "",
+      email: email  || "",
+      name: name || "",
     },
     resolver: zodResolver(FormFirstStep),
   })
@@ -57,9 +60,12 @@ function FirstStep() {
     }
   }
 
+
+
+  
   if (!isClient || !hasHydrated) {
     return (
-      <AuthLayout formType="register" title='Get Started'>
+      <AuthLayout disabled={loading} formType="register" title='Get Started' className=' lg:max-w-none h-dvh '>
         <div className="flex items-center justify-center py-8">
           <Loader className="animate-spin size-6" />
         </div>
@@ -68,12 +74,12 @@ function FirstStep() {
   }
 
   return (
-    <AuthLayout formType="register" title='Get Started'>
+    <AuthLayout disabled={loading} formType="register" title='Get Started' className=' lg:max-w-none h-dvh '>
       <SignUpForm form={form} isPending={isPending || loading} onSubmit={onSubmit}>
         <Button
           disabled={isPending || loading}
           type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="w-full  transition-colors"
         >
           Next Step
           {(isPending || loading) && (

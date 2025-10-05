@@ -37,7 +37,7 @@ function SignUpForm<T extends FieldValues, >({
       <form onSubmit={form.handleSubmit(props.onSubmit)} className=" space-y-6 *:
       
       
-  [&_input]:text-sm [&_input]:w-full [&_input]:py-2 [&_input]:px-3 [&_input]:border [&_input]:rounded-lg [&_input]:focus:outline-none [&_input]:focus:ring-1 [&_input]:bg-white [&_input]:text-black [&_input]:focus:ring-orange-500
+  [&_input]:text-sm [&_input]:w-full [&_input]:py-2 [&_input]:px-3 [&_input]:border [&_input]:rounded-lg [&_input]:focus:outline-none [&_input]:focus:ring-1 [&_input]:bg-background [&_input]:text-black [&_input]:focus:ring-orange-500
       ">
       
 

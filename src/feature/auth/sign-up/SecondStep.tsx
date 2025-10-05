@@ -11,7 +11,8 @@ import { toast } from 'sonner';
 import z from 'zod'
 import { useOnboardingStore } from '@/hooks/use-store-signup'
 import { useRouter } from 'next/navigation'
-import { Loader } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader } from 'lucide-react'
+import Link from 'next/link'
 
 const FormSecondStep = registerCreateSchema.pick({
   password: true,
@@ -22,7 +23,8 @@ type FormSecondStepSchema = z.infer<typeof FormSecondStep>;
 function SecondStep() {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-
+  const password = useOnboardingStore((state) => state.password);
+  const password_confirmation = useOnboardingStore((state) => state.password_confirmation);
   const useName = useOnboardingStore((state) => state.name);
   const userEmail = useOnboardingStore((state) => state.email);
   const hasHydrated = useOnboardingStore((state) => state._hasHydrated);
@@ -34,8 +36,8 @@ function SecondStep() {
   const form = useForm<FormSecondStepSchema>({
     mode: "onSubmit", 
     defaultValues: {
-      password: "",
-      password_confirmation: "",
+      password: password || '',
+      password_confirmation: password_confirmation || '',
     },
     resolver: zodResolver(FormSecondStep),
   })
@@ -69,7 +71,7 @@ function SecondStep() {
 
   if (!isClient || !hasHydrated) {
     return (
-      <AuthLayout title='Create password' description='Make a strong password - to protect your account'>
+      <AuthLayout title='Create password' description='Make a strong password - to protect your account' className=' lg:max-w-none h-dvh '>
         <div className="flex items-center justify-center py-8">
           <Loader className="animate-spin size-6" />
         </div>
@@ -78,18 +80,40 @@ function SecondStep() {
   }
 
   return (
-    <AuthLayout title='Create password' description='Make a strong password - to protect your account'>
+    <AuthLayout title='Create password' description='Make a strong password - to protect your account' className=' lg:max-w-none h-dvh '>
       <SignUpForm form={form} isPending={isPending || loading} onSubmit={onSubmit}>
+          <div className=" w-full space-y-5">
+
         <Button
           disabled={isPending || loading}
           type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="w-full  transition-colors"
         >
           Next 
-          {(isPending || loading) && (
+          {(isPending || loading) ? (
             <Loader className='animate-spin ml-2'/>
-          )}
+          ) :   <ChevronRight className=' ml-2'/>}
         </Button>
+     <Button
+             disabled={loading}
+          variant={"link"}
+                      type="button"
+                       className='rounded-lg flex justify-center items-center  w-full'
+             >
+                       
+                <Link
+                
+                            href={'/register'}
+                             className='rounded-lg justify-center gap-2 flex items-center  w-full'
+                            >
+                               {( loading) ? (
+                    <Loader className='animate-spin ml-2'/>
+                  ) : <ChevronLeft className=' '/>}
+                            Back
+                        </Link>
+                  </Button>
+        
+          </div>
       </SignUpForm>
     </AuthLayout>
   )
