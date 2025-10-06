@@ -1,9 +1,41 @@
 import React from 'react'
+import InfiniteScrollDemo from "@/feature/section/products.tsx";
+import { Meta } from '@/types';
 
-function page() {
+interface PageProps {
+ params: Promise<{ slug:   string  }>;
+
+}
+type componentsProps = {
+  
+    page?: number; 
+    perPage?: number; 
+    search?: string; 
+    status?: string | string[] 
+    category?: string | string[] 
+
+}
+export default async function Page( props  : PageProps) {
+  const { slug } = await props.params
+  const params : componentsProps = {
+    category: slug
+  }
   return (
-    <div>page</div>
+ 
+
+// import { Suspense } from "react";
+
+
+
+
+
+
+
+
+
+ 
+    <InfiniteScrollDemo params={params}/>
+
   )
 }
 
-export default page

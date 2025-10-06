@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
 
   // Public paths
-  const isPublicPath = path === '/login' || path === '/sign_up' || path === '/' || path === '/products'
+  const isPublicPath = path === '/login' || path === '/sign_up' || path === '/' || path === '/products/:path*'
 
   // If no token and trying to access protected route
   if (!token && !isPublicPath) {
@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
   }
 
   // If has token and trying to access auth pages
-  if (token && isPublicPath && path !== '/' && path !== '/products')  {
+  if (token && isPublicPath && path !== '/' && path !== '/products/:path*')  {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

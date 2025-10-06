@@ -7,25 +7,33 @@ export interface ApiResponse {
   message: string;
   meta?: Meta;
   data?: ProductsSchema[];
-  nextPage?: number;
-  hasMore?: boolean;
+ 
 }
 
-export const useProducts = () => {
-  const getProducts = async (params: { 
+
+type componentsProps = {
+   params: { 
     page?: number; 
     perPage?: number; 
     search?: string; 
     status?: string | string[] 
-  } = {}): Promise<ProductResponse> => {
+    category?: string | string[] 
+  } 
+}
+
+export const useProducts = () => {
+  const getProducts = async ({ params } : componentsProps): Promise<ProductResponse> => {
     try {
-      const { page = 1, perPage = 12, search, status } = params;
+      
+      const { page = 1, perPage = 12, search, status  , category} = params;
       const res = await axios.get<ProductResponse>('/api/products', {
         params: {
           page,
           perPage,
+          
           search: search ?? undefined,
           status: Array.isArray(status) ? status.join(',') : status ?? undefined,
+          category: Array.isArray(category) ? category.join(',') : category ?? undefined,
         },
       });
       return res.data;

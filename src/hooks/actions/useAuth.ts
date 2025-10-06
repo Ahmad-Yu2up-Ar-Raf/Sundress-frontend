@@ -15,7 +15,7 @@ interface AuthProps {
 
 export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthProps = {}) => {
   const router = useRouter()
-  const disable = ["/", '/products'] 
+  const disable = ["/login", '/register' , '/register/password', '/register/role'] 
    const pathName = usePathname()
   const { user, token, setAuth, clearAuth, isSeller, isBuyer } = useAuthStore()
 
@@ -80,7 +80,7 @@ const csrf = async () => {
 
 
       
-if (!disable.includes(pathName)) {
+if (disable.includes(pathName)) {
         if (!user.email_verified_at) {
         router.push('/verify-email')
         return { success: true, message: 'Please verify your email' }
@@ -110,7 +110,7 @@ return { success: true, message: 'Login successful!' }
       console.error('Logout error:', error)
     } finally {
      clearAuth()
-     if (!disable.includes(pathName)) {
+     if (disable.includes(pathName)) {
       router.push('/login')
      } 
     }
@@ -129,7 +129,7 @@ return { success: true, message: 'Login successful!' }
   }
 
   useEffect(() => {
-    if (middleware === 'guest' && user && redirectIfAuthenticated && !disable.includes(pathName)) {
+    if (middleware === 'guest' && user && redirectIfAuthenticated && disable.includes(pathName)) {
       // Redirect authenticated users away from guest pages
       if (user.role === 'seller') {
         router.push('/my-shop')
@@ -138,7 +138,7 @@ return { success: true, message: 'Login successful!' }
       }
     }
 
-    if (middleware === 'auth' && !user && !disable.includes(pathName)) {
+    if (middleware === 'auth' && !user && disable.includes(pathName)) {
       // Redirect unauthenticated users to login
       router.push('/login')
     }

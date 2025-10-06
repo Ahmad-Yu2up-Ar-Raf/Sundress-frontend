@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './card'
 import { cn } from '@/lib/utils'
 
 import { OptionItem } from '@/config/enum/CategoryProductsStatus'
+import Link from 'next/link'
 
 type CatagotyProps = {
   CategoryData : OptionItem
@@ -13,11 +14,11 @@ type CatagotyProps = {
 function CategoryCard({ CategoryData}: CatagotyProps) {
   const props = CategoryData
   return (
-    <Card className={cn('group   cursor-pointer   rounded-lg overflow-hidden bg-background  p-0 min-h-[7.7svh] shadow-none border-0  w-full  relative ' ,
+    <Card className={cn('group   cursor-pointer   rounded-lg overflow-hidden bg-background  p-0 min-h-[4em] shadow-none border-0  w-full  relative ' ,
 
         props.className
     )}>
-
+<Link href={`/products/${CategoryData.value}`}>
 <CardContent className=' p-0  z-40 w-full h-full absolute shadow-none' >
 
 
@@ -34,6 +35,7 @@ function CategoryCard({ CategoryData}: CatagotyProps) {
  
 <CardTitle className=" ">{props.label}</CardTitle>
       </CardHeader>
+</Link>
 
     </Card>
   )

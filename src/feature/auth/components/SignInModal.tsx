@@ -98,7 +98,7 @@ function SignInModal({ className }: { className?: string}) {
        
       <DialogContent 
 
-        className={cn("max-h-[100ddvh  w-full p-0  lg:max-h-[44rem] justify-between border-0 max-w-[90dvw]  lg:max-w-6xl ", className)}
+        className={cn("max-h-[100ddvh  w-full p-0  lg:max-h-[44rem] justify-between border-0 max-w-[90dvw]  lg:max-w-5xl ", className)}
       >
          <DialogHeader className=' sr-only'>
             <DialogTitle>Edit profile</DialogTitle>

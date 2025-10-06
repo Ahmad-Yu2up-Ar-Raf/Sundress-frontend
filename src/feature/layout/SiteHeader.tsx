@@ -134,7 +134,7 @@ export   function SiteHeader({ paths , isMobile }: { paths: string , isMobile: b
    
 
     )}>
-        <main className=" max-w-6xl m-auto  justify-between md:flex ">
+        <main className=" max-w-5xl m-auto  justify-between md:flex ">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <Logo />

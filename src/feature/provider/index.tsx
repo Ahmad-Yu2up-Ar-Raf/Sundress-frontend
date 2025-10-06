@@ -21,7 +21,7 @@ import { ModalProvider } from './ContextProvider';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
  const isMobile = useIsMobile()
-const disable = ["/",   '/products']
+const disable = ["/",   '/products/:path*']
   const paths = usePathname()
 
     return (
@@ -76,7 +76,7 @@ const disable = ["/",   '/products']
                 
                 <SiteFooter/>
              
-                <Toaster position="top-center"/>
+                <Toaster/>
             </ProgressProvider>
             </ModalProvider>
         </ReactLenis>

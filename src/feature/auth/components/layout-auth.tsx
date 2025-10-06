@@ -67,7 +67,7 @@ export const AuthLayout = ({  formType , numberOfIterations, className  , disabl
   const formTypeReverse = formType == 'register' ? 'login' : 'register'
   return (
     <div className="  h-full flex items-center justify-center overflow-hidden ">
-      <div className={cn("  w-full relative max-w-lg lg:max-w-6xl overflow-hidden flex flex-col h-full lg:flex-row shadow-xl" , className)}>
+      <div className={cn("  w-full relative max-w-lg lg:max-w-5xl overflow-hidden flex flex-col h-full lg:flex-row shadow-xl" , className)}>
         <div className="w-full h-full z-2 absolute bg-linear-to-t from-transparent to-black"></div>
         <div className="flex absolute z-2  h-full overflow-hidden backdrop-blur-2xl ">
           <div className="h-full z-2 w-[4rem] bg-linear-90 from-[#ffffff00] via-[#000000] via-[69%] to-[#ffffff30] opacity-30 overflow-hidden"></div>

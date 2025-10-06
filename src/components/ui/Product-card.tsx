@@ -37,7 +37,7 @@ type ProductProps  = {
   className?: string
 }
 
-export function ProductCard({  Product ,className }: ProductProps) {
+export function ProductCard({  Product ,className ,...props }: ProductProps & React.HTMLAttributes<HTMLDivElement>) {
   const [loading, setLoading] = React.useState(false);  
 const Price = formatIDR(Product.price)
        const { open } = useModal();
@@ -61,7 +61,7 @@ const Price = formatIDR(Product.price)
        const EndPoint : string = Product.is_whislisted ? '/api/unwhistlist' : '/api/whistlist'
       
       
-     toast.loading(`${Product.is_whislisted ? 'removing' : 'adding'}} to wishlist...`, { id: "whistlist" })
+     toast.loading(`${Product.is_whislisted ? 'removing from' : 'adding to'}  wishlist...`, { id: "whistlist" })
     
     
     
@@ -105,8 +105,8 @@ const Price = formatIDR(Product.price)
 
   return (
   
-    <Card className="w-full  gap-4 max-w-sm shadow-none border-0 p-0 bg-background">
-        <CardContent className={cn(" group rounded-lg overflow-hidden bg-background relative px-0 md:min-h-[40svh]  min-h-[29svh]" , className)}>
+    <Card className={cn("w-full  gap-4 max-w-sm shadow-none border-0 p-0 bg-background" )} {...props}>
+        <CardContent className={cn(" group rounded-lg overflow-hidden bg-background relative px-0  min-h-[18em] md:min-h-[20em]  " , className )}>
           <Badge  className="absolute z-30 rounded-lg top-2 left-2">
             New
           </Badge>
@@ -189,16 +189,16 @@ const Price = formatIDR(Product.price)
       
       </CardContent>
           <Link 
-          className=" space-y-4"
+          className=" space-y-2 lg:space-y-4"
     href={`/products/${Product.id}`}
       >
 
-      <CardHeader className=" p-0 bg-background ">
+      <CardHeader className=" pl-0 py-0 pr-2.5 bg-background ">
         <Badge variant={"outline"} className=" lg:text-sm border-0 p-0">
-        <Star className=" fill-primary text-primary"/>  4.9
+        <Star className=" fill-primary text-primary"/>  <span className=" font-medium"> 4.9</span>
 <span className=" text-muted-foreground">(665)</span>
         </Badge>
-        <CardTitle className=" lg:text-lg line-clamp-2">{Product.name} </CardTitle>
+        <CardTitle className=" text-sm lg:text-lg line-clamp-2">{Product.name} </CardTitle>
         {/* <CardDescription>
           Enter your email below to login to your account
         </CardDescription> */}
@@ -208,8 +208,8 @@ const Price = formatIDR(Product.price)
       <CardFooter className=" text-left  bg-background  p-0">
         <div className=" flex flex-col">
 
-       <h1 className=" text-left   lg:text-lg font-bold">{Price}</h1>
-       <p className=" text-sm text-accent-foreground/90 line-clamp-1">{Product.country} </p>
+       <h1 className=" text-left  text-sm   font-semibold  lg:text-lg ">{Price}</h1>
+       <p className="  text-sm text-accent-foreground/90 line-clamp-1">{Product.country} </p>
         </div>
         {/* <Button variant="outline" className="w-full">
           Login with Google

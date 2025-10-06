@@ -7,7 +7,7 @@ export interface DataFile {
 export interface Filters {
     search?: string;
     status?: string[] | string;
-    
+    category?: string[] | string
     [key: string]: unknown;
 }
 
@@ -26,15 +26,11 @@ export interface PaginatedData {
     lastPage: number;
     perPage: number;
     total: number;
+     hasMore: boolean;
     [key: string]: unknown;
 }
 
-export interface Meta {
-    current_page: number;
-    last_page: number;
-    total: number;
-    per_page: number;
-  }
+
   
   export interface ProductResponse {
     status: boolean;
