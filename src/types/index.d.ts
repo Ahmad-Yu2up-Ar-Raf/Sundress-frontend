@@ -7,6 +7,7 @@ export interface DataFile {
 export interface Filters {
     search?: string;
     status?: string[] | string;
+    
     [key: string]: unknown;
 }
 
@@ -28,7 +29,19 @@ export interface PaginatedData {
     [key: string]: unknown;
 }
 
-
+export interface Meta {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+  }
+  
+  export interface ProductResponse {
+    status: boolean;
+    message: string;
+    data: ProductsSchema[];
+    meta: Meta;
+  }
 
 
 export interface Meta {

@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/fragments/card"
 
 import { Heart, ShoppingCart,  Star } from "lucide-react"
-import Image from "next/image"
+
 import { Badge } from "./fragments/badge"
 import Link from "next/link"
-import { DataFile } from "@/types"
+
 import MediaItem from "./fragments/MediaItem"
 import {
   Tooltip,
@@ -34,9 +34,10 @@ import { cn } from "@/lib/utils"
 
 type ProductProps  = {
   Product : ProductsSchema
+  className?: string
 }
 
-export function ProductCard({  Product }: ProductProps) {
+export function ProductCard({  Product ,className }: ProductProps) {
   const [loading, setLoading] = React.useState(false);  
 const Price = formatIDR(Product.price)
        const { open } = useModal();
@@ -55,13 +56,12 @@ const Price = formatIDR(Product.price)
       startTransition(async () => { 
       try {
     
-    
-     
+      const CheckStatus : string = Product.is_whislisted ? 'Product removed from whistlist ' : 'New Product in whistlist'
      
        const EndPoint : string = Product.is_whislisted ? '/api/unwhistlist' : '/api/whistlist'
       
       
-     toast.loading("Adding to wishlist...", { id: "adding" })
+     toast.loading(`${Product.is_whislisted ? 'removing' : 'adding'}} to wishlist...`, { id: "whistlist" })
     
     
     
@@ -80,16 +80,16 @@ const Price = formatIDR(Product.price)
     
     
              if (result.success) {
-                         toast.success( "New Product in whistlist", { id: "adding" })
+                         toast.success(CheckStatus, { id: "whistlist" })
                        } else {
-                         toast.error( "Failed added product", { id: "adding" })
+                         toast.error( `Failed ${Product.is_whislisted ? 'removed' : 'added'} product`, { id: "whistlist" })
                        }
     
     
                        
        } catch (error) {
          console.error("Form submission error", error);
-         toast.error("Network error. Please check your connection.",  { id: "adding" });
+         toast.error("Network error. Please check your connection.",  { id: "whistlist" });
        } finally {
          setLoading(false);
        }
@@ -106,8 +106,8 @@ const Price = formatIDR(Product.price)
   return (
   
     <Card className="w-full  gap-4 max-w-sm shadow-none border-0 p-0 bg-background">
-        <CardContent className=" group rounded-2xl overflow-hidden bg-background relative px-0 md:min-h-[45svh]  min-h-[35svh]">
-          <Badge  className="absolute z-30 rounded-2xl top-2 left-2">
+        <CardContent className={cn(" group rounded-lg overflow-hidden bg-background relative px-0 md:min-h-[40svh]  min-h-[29svh]" , className)}>
+          <Badge  className="absolute z-30 rounded-lg top-2 left-2">
             New
           </Badge>
       <CardAction className=" absolute pt-1.5 md:pt-0  h-full justify-between bottom-0 right-0 flex flex-col">
@@ -124,7 +124,7 @@ const Price = formatIDR(Product.price)
 ) : (
   <Heart  className={cn("     " ,
 
-    Product.is_whislisted ? ' size-5 text-primary ' : 'size-4.5 text-white dark:text-black'
+    Product.is_whislisted ? ' size-6 text-primary ' : 'size-5 text-white dark:text-black'
   )}/>
 
 )}
@@ -140,14 +140,14 @@ const Price = formatIDR(Product.price)
           <Tooltip>
 
       <TooltipTrigger render={
-          <Button  className="      relative z-40 size-10.5 rounded-full ">
-  <ShoppingCart className=" size-5 "/>
+          <Button  className="    lg:size-12    relative z-40 size-11 rounded-full ">
+  <ShoppingCart className=" size-5.5 "/>
 </Button>} />
       <TooltipPanel
        
       >
         
-        <p>Add to cart</p>
+        <p>Buy Now</p>
       </TooltipPanel>
    
     
@@ -155,7 +155,7 @@ const Price = formatIDR(Product.price)
        
            </Tooltip>
         </CardAction>
-             <div className="absolute z-30 bottom-0 right-0 size-15">
+             <div className="absolute z-30 bottom-0 right-0 size-14.5 lg:size-16">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 62" className=" relative z-20">
     <path d="M 36 10 L 52 10 C 57.523 10 62 5.523 62 0 L 62 62 L 0 62 C 5.523 62 10 57.523 10 52 L 10 36 C 10 21.641 21.641 10 36 10 Z" fill="var(--background)"/>
 </svg>
@@ -193,23 +193,23 @@ const Price = formatIDR(Product.price)
     href={`/products/${Product.id}`}
       >
 
-      <CardHeader className=" px-0 bg-background pr-1">
-        <Badge variant={"outline"} className=" border-0 p-0">
+      <CardHeader className=" p-0 bg-background ">
+        <Badge variant={"outline"} className=" lg:text-sm border-0 p-0">
         <Star className=" fill-primary text-primary"/>  4.9
 <span className=" text-muted-foreground">(665)</span>
         </Badge>
-        <CardTitle className=" text-sm line-clamp-2">{Product.name} </CardTitle>
+        <CardTitle className=" lg:text-lg line-clamp-2">{Product.name} </CardTitle>
         {/* <CardDescription>
           Enter your email below to login to your account
         </CardDescription> */}
       
       </CardHeader>
     
-      <CardFooter className=" text-left bg-background  px-0">
+      <CardFooter className=" text-left  bg-background  p-0">
         <div className=" flex flex-col">
 
-       <h1 className=" text-left   font-bold">{Price}</h1>
-       <p className=" text-xs text-muted-foreground line-clamp-1">{Product.country} , {Product.city}</p>
+       <h1 className=" text-left   lg:text-lg font-bold">{Price}</h1>
+       <p className=" text-sm text-accent-foreground/90 line-clamp-1">{Product.country} </p>
         </div>
         {/* <Button variant="outline" className="w-full">
           Login with Google

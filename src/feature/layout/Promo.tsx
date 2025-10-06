@@ -92,7 +92,7 @@ handleClick(); // Jalankan confetti saat komponen dimount
         
         className="max-h-[100ddvh w-full lg:max-h-[44rem] justify-between border-0 h-fit max-w-[90dvw]  lg:max-w-[1180px] overflow-hidden  flex flex-col lg:gap-4  gap-5 items-center lg:items-end  lg:pt-0  lg:pb-5 px-0 shadow-none rounded-none bg-[223] ease-out duration-300  "
       >
-        <div className=" p-6 lg:p-0 overflow-hidden rounded-2xl bg-background gap-6 lg:gap-8 grid grid-cols-1 lg:grid-cols-2 w-full lg:order-2  h-full">
+        <div className=" p-6 lg:p-0 overflow-hidden rounded-lg bg-background gap-6 lg:gap-8 grid grid-cols-1 lg:grid-cols-2 w-full lg:order-2  h-full">
 
         <MediaItem 
           webViewLink={src} 

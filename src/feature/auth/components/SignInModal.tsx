@@ -24,9 +24,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/fragments/dialog"
 import { useModal } from '@/feature/provider/ContextProvider'
+import { cn } from '@/lib/utils'
 
 
-function SignInModal({ className  , children}: { className?: string , children : React.ReactNode}) {
+function SignInModal({ className }: { className?: string}) {
 
   const { isOpen, close, payload } = useModal();
 
@@ -94,15 +95,10 @@ function SignInModal({ className  , children}: { className?: string , children :
 
   return (
         <Dialog   onOpenChange={close}  open={isOpen}  >
-           <DialogTrigger asChild className=' cursor-pointer'>
-            {children
-              
-            }
        
-        </DialogTrigger>
       <DialogContent 
 
-        className="max-h-[100ddvh  w-full p-0  lg:max-h-[44rem] justify-between border-0 max-w-[90dvw]  lg:max-w-5xl "
+        className={cn("max-h-[100ddvh  w-full p-0  lg:max-h-[44rem] justify-between border-0 max-w-[90dvw]  lg:max-w-6xl ", className)}
       >
          <DialogHeader className=' sr-only'>
             <DialogTitle>Edit profile</DialogTitle>

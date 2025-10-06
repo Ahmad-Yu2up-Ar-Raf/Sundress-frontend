@@ -15,7 +15,7 @@ interface AuthProps {
 
 export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthProps = {}) => {
   const router = useRouter()
-  const disable = ["/",  ] 
+  const disable = ["/", '/products'] 
    const pathName = usePathname()
   const { user, token, setAuth, clearAuth, isSeller, isBuyer } = useAuthStore()
 

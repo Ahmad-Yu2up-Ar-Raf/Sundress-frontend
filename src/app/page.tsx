@@ -7,7 +7,7 @@ import Products from "@/feature/section/main/Products";
 
 
 
-export default async function Pages() {
+export default function Pages() {
 
 
 

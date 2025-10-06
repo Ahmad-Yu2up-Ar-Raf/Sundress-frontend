@@ -3,9 +3,10 @@ import {
     Geist_Mono,
     Instrument_Sans,
     Inter,
+    Outfit,
     Mulish,
     Nunito,
-    
+    Source_Serif_4,
    Delius_Swash_Caps,
     Noto_Sans_Mono,
     Bangers
@@ -13,9 +14,13 @@ import {
   import localFont from "next/font/local";
   import { cn } from '@/lib/utils';
   
-  const fontSans = Geist({
+  const fontSans = Source_Serif_4({
     subsets: ['latin'],
     variable: '--font-sans'
+  });
+  const fontOutfit = Outfit({
+    subsets: ['latin'],
+    variable: '--font-outfit'
   });
   const fontDelius = Delius_Swash_Caps({
     subsets: ['latin'],
@@ -76,5 +81,6 @@ export const fontplayBill = localFont({
     fontInter.variable,
     fontNunito.variable,
     fontDelius.variable,
+    fontOutfit.variable,
     fontplayBill.variable
   );

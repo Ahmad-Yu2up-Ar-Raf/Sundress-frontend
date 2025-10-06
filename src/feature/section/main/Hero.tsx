@@ -321,7 +321,7 @@ const  Hero: React.FC<AnimatedSectionsProps> = ({
     }, { scope: containerRef, dependencies: [sections.length, imagesLoaded] });
   
   return (
-  <div className=" w-full  lg:min-h-dvh flex flex-col  content-start   relative items-center   rounded-lg ">
+  <section  className=" w-full  px-4 lg:min-h-dvh flex flex-col  content-start   relative items-center   rounded-lg ">
 
 <div className=" rounded-t-2xl   relative w-full flex  content-center items-end  bg-secondary  overflow-hidden">
 
@@ -382,7 +382,7 @@ const  Hero: React.FC<AnimatedSectionsProps> = ({
           <div className="outer w-full h-full overflow-hidden" ref={(el) => { if (el) outerRefs.current[i] = el; }}>
             <div className="inner w-full h-full overflow-hidden" ref={(el) => { if (el) innerRefs.current[i] = el; }}>
               <div
-                className="bg flex items-center   px-5 md:px-10 lg:px-20  absolute top-0 h-full w-full bg-cover bg-center"
+                className="bg flex items-center   px-10 md:px-10 lg:px-20  absolute top-0 h-full w-full bg-cover bg-center"
                 ref={(el) => { if (el) imagesRefs.current[i] = el; }}
                 style={{
                   backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 100%), url("${section.img}")`
@@ -391,19 +391,19 @@ const  Hero: React.FC<AnimatedSectionsProps> = ({
               
  <header className=' max-w-xs w-full m-auto  md:max-w-xl text-center flex flex-col  gap-y-1.5 md:gap-y-5  '>
 
-                <h2 className="section-heading md:text-6xl line-clamp-2  uppercase text-white   font-extrabold  text-[4.5svh] leading-none z-10" ref={(el) => { if (el) headingRefs.current[i] = el; }}>
+                <h2 className="section-heading md:text-6xl line-clamp-2  uppercase text-white   font-extrabold  text-[3svh] leading-none z-10" ref={(el) => { if (el) headingRefs.current[i] = el; }}>
                   {section.text}
                 </h2>
                 <p 
                  ref={(el) => { if (el) desckripcionRefs.current[i] = el; }}
                 
-                className='    text-accent/70 line-clamp-2   text-[2svh] md:text-base '>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima iusto asperiores aperiam? Repudiandae suscipit, reprehenderit veritatis eum at officia culpa.</p>
-               <div className=" w-fit m-auto gap-4 flex items-center ">
+                className='    text-accent/70 line-clamp-2   text-[1.5svh] md:text-base '>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima iusto asperiores aperiam? Repudiandae suscipit, reprehenderit veritatis eum at officia culpa.</p>
+               <div className="  mt-3 md:mt-6  w-fit m-auto gap-4 flex items-center ">
 
-                <Link href={'/products'} className={cn(buttonVariants({ variant: "default" }) , ' rounded-2xl font-bold uppercase m-auto  mt-6 text-sm   w-fit hidden md:flex md:py-6  md:px-8'  )}>
+                <Link href={'/products'}  className={cn(buttonVariants({ variant: "default" }) , '  font-bold  uppercase m-auto  text-xs md:text-sm   w-fit  md:py-6  md:px-8'  )}>
                 Order Now
                 </Link>
-                <Link href={'/products'} className={cn(buttonVariants({ variant: "secondary" }) , '  rounded-2xl font-bold uppercase m-auto  mt-6 text-sm   w-fit hidden md:flex md:py-6  md:px-8'  )}>
+                <Link href={'/products'} className={cn(buttonVariants({ variant: "secondary" }) , '  font-bold uppercase m-auto text-xs md:text-sm   w-fit md:py-6  md:px-8'  )}>
                 Make Shop
                 </Link>
                </div>
@@ -420,12 +420,12 @@ const  Hero: React.FC<AnimatedSectionsProps> = ({
 </div>
 </div>
      <div className="  flex justify-center gap-5 py-2  md:py-7  bg-secondary rounded-b-2xl w-full ">
-<div className=" overflow-x-hidden max-w-5xl  m-auto w-full">
+<div className=" overflow-x-hidden max-w-6xl  m-auto w-full">
 
 <LogoCloudDemoPage/>
 </div>
      </div>
-  </div>
+  </section>
 
   )
 }
