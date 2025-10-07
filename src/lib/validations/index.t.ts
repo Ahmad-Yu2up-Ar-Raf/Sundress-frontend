@@ -63,7 +63,9 @@ export const productsSchema = z.object({
 
   created_at: z.coerce.date().optional(),
   updated_at: z.coerce.date().optional(),
-  
+    reviews_count:  z.number().optional(),
+    orders_count:  z.number().optional(),
+    reviews_avg_star_rating:  z.number().optional(),
      price: z.coerce.number().min(0.001, "Harga is required"),
    status: z.enum(ProductStatusValues).optional(),
 

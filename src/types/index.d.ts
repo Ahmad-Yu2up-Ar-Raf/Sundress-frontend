@@ -44,3 +44,24 @@ export interface Meta {
     filters : Filters
     pagination : PaginatedData
 }
+
+export interface ApiResponse {
+  status: boolean;
+ 
+  message: string;
+  meta?: Meta;
+  data?: ProductsSchema[];
+ 
+}
+
+
+export type paramsProps = {
+   params: { 
+    page?: number; 
+    perPage?: number; 
+    search?: string; 
+    status?: string | string[] 
+    category?: string | string[] 
+    free_shipping? : boolean
+  } 
+}

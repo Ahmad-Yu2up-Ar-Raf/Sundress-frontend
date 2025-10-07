@@ -134,7 +134,7 @@ export   function SiteHeader({ paths , isMobile }: { paths: string , isMobile: b
    
 
     )}>
-        <main className=" max-w-5xl m-auto  justify-between md:flex ">
+        <main className=" max-w-6xl m-auto  justify-between md:flex ">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <Logo />
@@ -189,7 +189,7 @@ export   function SiteHeader({ paths , isMobile }: { paths: string , isMobile: b
       
       
     </motion.nav>
-    <nav className="w-full  md:hidden   px-4  md:px-0 py-2 md:py-0 md:bg-background/0  md:backdrop-blur-none border-b-2 border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50 md:border-0 ">
+    <nav className="w-full  md:hidden   px-4  lg:px-0 py-2 md:py-0 md:bg-background/0  md:backdrop-blur-none border-b-2 border-border/40 bg-background/80 backdrop-blur-md sticky top-0 z-50 md:border-0 ">
 
      <div className="block md:hidden">
           <div className="flex items-center justify-between">

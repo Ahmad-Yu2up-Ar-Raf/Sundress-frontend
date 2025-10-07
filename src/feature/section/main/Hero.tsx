@@ -438,7 +438,7 @@ const Hero: React.FC<AnimatedSectionsProps> = ({
                           {section.description}
                         </p>
 
-                        <div className="mt-3 md:mt-6 w-fit m-auto gap-4 flex items-center">
+                        <div className="mt-3 md:mt-6 w-fit m-auto gap-2 md:gap-4 flex items-center">
                           <Link href={"/products"} className={cn(buttonVariants({ variant: "default" }), "font-bold uppercase m-auto text-xs md:text-sm w-fit md:py-6 md:px-8")}>
                             Order Now
                           </Link>
@@ -457,7 +457,7 @@ const Hero: React.FC<AnimatedSectionsProps> = ({
       </div>
 
       <div className="flex justify-center gap-5 py-2 md:py-7 bg-secondary rounded-b-2xl w-full">
-        <div className="overflow-x-hidden max-w-5xl m-auto w-full">
+        <div className="overflow-x-hidden max-w-6xl m-auto w-full">
           <LogoCloudDemoPage />
         </div>
       </div>

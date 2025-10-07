@@ -33,11 +33,15 @@ import { cn } from "@/lib/utils"
 
 
 type ProductProps  = {
-  Product : ProductsSchema
-  className?: string
+  Product: ProductsSchema;
+  className?: string;
+  isWhistlist?: boolean | null;
+  setWhistlist: React.Dispatch<React.SetStateAction<boolean | null>>;
+  onWishlistChange?: (isWishlisted: boolean) => void;
+  label?: string
 }
 
-export function ProductCard({  Product ,className ,...props }: ProductProps & React.HTMLAttributes<HTMLDivElement>) {
+export function ProductCard({  Product ,className  , label , onWishlistChange , setWhistlist , isWhistlist,...props }: ProductProps & React.HTMLAttributes<HTMLDivElement>) {
   const [loading, setLoading] = React.useState(false);  
 const Price = formatIDR(Product.price)
        const { open } = useModal();
@@ -53,47 +57,28 @@ const Price = formatIDR(Product.price)
 
     if(user.user){
       setLoading(true)
-      startTransition(async () => { 
-      try {
-    
-      const CheckStatus : string = Product.is_whislisted ? 'Product removed from whistlist ' : 'New Product in whistlist'
-     
-       const EndPoint : string = Product.is_whislisted ? '/api/unwhistlist' : '/api/whistlist'
-      
-      
-     toast.loading(`${Product.is_whislisted ? 'removing from' : 'adding to'}  wishlist...`, { id: "whistlist" })
-    
-    
-    
-    
-    
-    
-      const result = await  addWhistlist({
-          data: {
-             product_id : Product.id
-          },
-          EndPoint:   EndPoint
-        })
-    
-    
-    
-    
-    
-             if (result.success) {
-                         toast.success(CheckStatus, { id: "whistlist" })
-                       } else {
-                         toast.error( `Failed ${Product.is_whislisted ? 'removed' : 'added'} product`, { id: "whistlist" })
-                       }
-    
-    
-                       
-       } catch (error) {
-         console.error("Form submission error", error);
-         toast.error("Network error. Please check your connection.",  { id: "whistlist" });
-       } finally {
-         setLoading(false);
-       }
-         })
+      startTransition(async () => {
+        try {
+          const result = await addWhistlist({
+            data: { product_id: Product.id },
+            EndPoint: Product.is_whislisted ? '/api/unwhistlist' : '/api/whistlist'
+          });
+
+          if (result.success) {
+            onWishlistChange?.(!Product.is_whislisted);
+            if(isWhistlist === null) {
+              setWhistlist(true);
+            } else {
+              setWhistlist(!isWhistlist);
+            }
+            toast.success(Product.is_whislisted ? 'Removed from wishlist' : 'Added to wishlist');
+          }
+        } catch (error) {
+          toast.error("Network error");
+        } finally {
+          setLoading(false);
+        }
+      });
 
     }else{
 
@@ -105,11 +90,14 @@ const Price = formatIDR(Product.price)
 
   return (
   
-    <Card className={cn("w-full  gap-4 max-w-sm shadow-none border-0 p-0 bg-background" )} {...props}>
-        <CardContent className={cn(" group rounded-lg overflow-hidden bg-background relative px-0  min-h-[18em] md:min-h-[20em]  " , className )}>
-          <Badge  className="absolute z-30 rounded-lg top-2 left-2">
-            New
+    <Card className={cn("w-full  h-full  gap-4 max-w-sm shadow-none border-0 p-0 bg-background" )} {...props}>
+        <CardContent className={cn(" group rounded-lg overflow-hidden bg-background relative px-0  min-h-[18em] md:min-h-[23em]  " , className )}>
+      {label && (
+
+          <Badge  className="absolute z-30 bg-primary/80 rounded-lg top-2.5 left-2">
+           {label}
           </Badge>
+      )}
       <CardAction className=" absolute pt-1.5 md:pt-0  h-full justify-between bottom-0 right-0 flex flex-col">
     <Tooltip>
 
@@ -195,8 +183,8 @@ const Price = formatIDR(Product.price)
 
       <CardHeader className=" pl-0 py-0 pr-2.5 bg-background ">
         <Badge variant={"outline"} className=" lg:text-sm border-0 p-0">
-        <Star className=" fill-primary text-primary"/>  <span className=" font-medium"> 4.9</span>
-<span className=" text-muted-foreground">(665)</span>
+        <Star className=" fill-primary text-primary"/>  <span className=" font-medium">{ Product.reviews_avg_star_rating != null ?  Math.round(Product.reviews_avg_star_rating! * 10) / 10 : 0.0 }</span>
+<span className=" text-muted-foreground">({Product.reviews_count})</span>
         </Badge>
         <CardTitle className=" text-sm lg:text-lg line-clamp-2">{Product.name} </CardTitle>
         {/* <CardDescription>
@@ -209,7 +197,7 @@ const Price = formatIDR(Product.price)
         <div className=" flex flex-col">
 
        <h1 className=" text-left  text-sm   font-semibold  lg:text-lg ">{Price}</h1>
-       <p className="  text-sm text-accent-foreground/90 line-clamp-1">{Product.country} </p>
+       <p className="  text-sm text-accent-foreground/90 line-clamp-1">Products {Product.orders_count} terjual </p>
         </div>
         {/* <Button variant="outline" className="w-full">
           Login with Google

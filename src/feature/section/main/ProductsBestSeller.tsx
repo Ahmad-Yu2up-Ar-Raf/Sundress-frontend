@@ -8,17 +8,17 @@ import React from 'react'
 
 import { useEffect, useState } from "react";
 import {   useProducts } from "@/hooks/actions/useProducts";
-
+import { ApiResponse } from '@/types';
 import ProductsCarousel from '@/feature/auth/components/SectionCarosul';
 
 
 
-import { ApiResponse } from '@/types';
 
 
 
 
-function Products() {
+
+function ProductsFreeShipping() {
   const [isWhistlist , setWistlist] = useState<boolean | null >(null)
   const { getProducts } = useProducts();
   const [DataProducts, setData] = useState<ApiResponse >();
@@ -26,21 +26,22 @@ function Products() {
    
   useEffect(() => {
     (async () => {
-      const res = await getProducts({ params: { }});
+      const res = await getProducts({ params: {  
+         free_shipping: true
+      }});
       if (res) setData(res);
       setLoading(false);
     })();
   }, [isWhistlist]);
 
-console.log(DataProducts)
   
  
   return (
-<ProductsCarousel label="Specials" href='/' title='For you' isWhistlist={isWhistlist} setWhistlist={setWistlist} loading={loading} data={DataProducts?.data!} />
+<ProductsCarousel tag='Best Seller' href='/'   isWhistlist={isWhistlist} label='Specials' setWhistlist={setWistlist} title='Products with ' loading={loading} data={DataProducts?.data!} />
   )
 }
 
-export default Products
+export default ProductsFreeShipping
 
 
 

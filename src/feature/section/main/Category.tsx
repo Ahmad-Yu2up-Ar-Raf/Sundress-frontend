@@ -21,9 +21,9 @@ import { SkeletonCard } from '@/components/ui/fragments/CardSkeletons';
 import { Badge } from '@/components/ui/fragments/badge';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/fragments/button';
-import { useIsMobile } from '@/hooks/use-mobile';
 
-
+import { CategoryProductsOptions, OptionItem } from "@/config/enum/CategoryProductsStatus";
+import CategoryCard from '@/components/ui/fragments/CategoryCard';
 
 
 
@@ -32,22 +32,18 @@ title?: string
 label?: string
 href?: string
 linkLabel?: string
-loading: boolean
-tag?: string
-  isWhistlist: boolean | null
-  setWhistlist: React.Dispatch<React.SetStateAction<boolean | null>>
-data: ProductsSchema[]
+
+
 }
 
 
-function ProductsCarousel({ linkLabel = "Explore more" , title="Newest Products"  , ...props }: componentsProps) {
+function CategoryCarousel({ linkLabel = "Explore more" , title="Products category"  , ...props }: componentsProps) {
 
-  const isMobile = useIsMobile()
-
+  
 
   return (
-    <section  className=' w-full   content-center items-start   relative  '> 
-    <div className=" h-fit space-y-7 lg:space-y-8  max-w-6xl m-auto">
+    <section  className='  w-full   content-center items-start   relative  '> 
+    <div className=" h-fit space-y-5 lg:space-y-8  max-w-6xl m-auto">
     <header className='  px-4 r   flex-row flex justify-between items-end'>
       <h1 className=' text-2xl md:text-3xl lg:items-center  flex-col gap-1 lg:gap-1 flex lg:flex-row  font-bold'>
         {title}
@@ -63,33 +59,16 @@ function ProductsCarousel({ linkLabel = "Explore more" , title="Newest Products"
       <Link
       className={cn( 
         buttonVariants({variant : "secondary"})
-        , '  text-xs px-3 py-0 text-black' )}
+        , '  text-xs p-3' )}
       href={props.href}
       >
       {linkLabel}
       </Link>
       )}
     </header>
-      {props.loading ? (
-    <div className="  pl-4  overflow-hidden xl:px-0  grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4  gap-y-9 gap-x-3  sm:gap-y-10 xl:gap-x-2.5 ">
-
-       <SkeletonCard/>
-       <SkeletonCard/>
-      
-      {!isMobile && (
-        <>
-        <SkeletonCard/>
-        
-        <SkeletonCard/>
-        </>
-          
-      )}
      
-      </div>   
-      ) : (
-
       <Carousel
-         
+          className=' lg:sr-only'
           opts={{
             align: "start",
             breakpoints: {
@@ -99,16 +78,17 @@ function ProductsCarousel({ linkLabel = "Explore more" , title="Newest Products"
             },
           }}
         >
+          
           <CarouselContent className="mx-4 relative cursor-grab  2xl:mr-[max(0rem,calc(50vw-700px))]">
-            {props.data!.map((item : ProductsSchema , i : number) => (
+            {CategoryProductsOptions.slice(0,5).map((item : OptionItem , i : number) => (
               <CarouselItem
                 key={i}
-                className={cn("max-w-[220px]  relative z-40  md:max-w-[300px]" , 
+                className={cn("max-w-[210px]  relative z-40  md:max-w-[300px]" , 
 
-  i > 0 ? 'pl-1.5' : 'pl-0',
+  i > 0 ? 'pl-1' : 'pl-0',
                 )}
               >
-                 <ProductCard label={props.tag} setWhistlist={props.setWhistlist} isWhistlist={props.isWhistlist} className=' ' Product={item}/>
+                 <CategoryCard CategoryData={item }  className=' min-h-[8.5em] '/>
               </CarouselItem>
             ))}
           
@@ -116,14 +96,23 @@ function ProductsCarousel({ linkLabel = "Explore more" , title="Newest Products"
             <CarouselPrevious  />
       <CarouselNext/>
         </Carousel>
-      )}
+        <div className=" px-4  ">
+  
+  <div className="    sr-only lg:not-sr-only   grid  grid-cols-5  gap-1.5">
+      {CategoryProductsOptions.slice(0,5).map((item,i) => {
+
+return (
+<CategoryCard CategoryData={item}  key={i} className=' min-h-[9em] '/> 
+      ) })}
+  </div>
+</div>
 
     </div>
     </section>
   )
 }
 
-export default ProductsCarousel
+export default CategoryCarousel
 
 
 

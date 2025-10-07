@@ -1,20 +1,20 @@
+"use client"
 import React from 'react'
 // import FilterDrawwer from "@/components/ui/fragments/FilterDrawwer";
 // import CategorySelect from "@/components/ui/fragments/CategorySelect";
 import { CategoryProductsOptions } from "@/config/enum/CategoryProductsStatus";
-import {
-    Carousel,
-  
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-  } from "@/components/ui/fragments/carousel";
+
 import CategoryCard from "@/components/ui/fragments/CategoryCard";
-import { cn } from '@/lib/utils';
+
+import  CategoryCarousol from '@/components/ui/fragments/CategoryCarousol';
+import { usePathname } from 'next/navigation';
 
 
-function ProductsHeader() {
+type componentsProps = {
+  title?: string
+}
+function ProductsHeader({   title = "Sundress"} : componentsProps) {
+  const paths = usePathname()
   return (
    <div className="space-y-5 xl:space-y-8">
 
@@ -25,69 +25,31 @@ function ProductsHeader() {
         <div className="  ">
 
       <h1 className=' text-2xl lg   tracking-tighter font-bold'>
-        Sundress Collection
+        {title} Collection
       </h1>
       <p className=" text-xs font-medium ">
            data Products
       </p>
         </div>
     </header>
+{paths == '/products' && (
+<>
+<CategoryCarousol/>
 
-
-    <Carousel
-          className=" md:sr-only"
-         opts={{
-           align: "start",
-           breakpoints: {
-             "(max-width: 768px)": {
-               dragFree: true,
-             },
-           },
-         }}
-       >
-         <CarouselContent className="mx-4 relative cursor-grab  2xl:mr-[max(0rem,calc(50vw-700px))]">
+ <div className=" px-4 xl:px-0 ">
+  
+      <div className="    sr-only md:not-sr-only   grid  grid-cols-5 md:gap-2 gap-1.5">
           {CategoryProductsOptions.map((item,i) => {
 
 return (
-  <CarouselItem
-           key={i}
-                className={cn("max-w-[195px] p-0      md:max-w-[300px]" , 
-  i > 0 && 'pl-1' 
-
-                )}
-              >
-                       <CategoryCard CategoryData={item} />
-              </CarouselItem>
-          ) })}
-
-
-   
-          
-           {/* {DataProducts?.data!.map((item , i) => (
-             <CarouselItem
-               key={i}
-               className={cn("max-w-[230px]  relative z-40  sm:max-w-[300px]" , 
-
- i > 0 ? 'pl-3' : 'pl-0'
-
-               )}
-             >
-                <ProductCard Product={item}/>
-             </CarouselItem>
-           ))} */}
-         
-         </CarouselContent>
-           <CarouselPrevious  className=''/>
-     <CarouselNext/>
-       </Carousel>
- 
-      <div className="  sr-only md:not-sr-only  sm:px-4 xl:px-0 grid  sm:grid-cols-5 gap-2">
-          {CategoryProductsOptions.map((item,i) => {
-
-return (
-  <CategoryCard CategoryData={item}  key={i}/>
+  <CategoryCard overlay CategoryData={item}  key={i}/> 
           ) })}
       </div>
+ </div>
+</>
+)
+
+}
         </div>
 
   )

@@ -1,39 +1,21 @@
-import { Meta, ProductResponse } from '@/types';
+import { Meta, paramsProps, ProductResponse } from '@/types';
 import axios from '@/lib/axios';
-import { ProductsSchema } from '@/lib/validations/index.t';
-export interface ApiResponse {
-  status: boolean;
- 
-  message: string;
-  meta?: Meta;
-  data?: ProductsSchema[];
- 
-}
 
-
-type componentsProps = {
-   params: { 
-    page?: number; 
-    perPage?: number; 
-    search?: string; 
-    status?: string | string[] 
-    category?: string | string[] 
-  } 
-}
 
 export const useProducts = () => {
-  const getProducts = async ({ params } : componentsProps): Promise<ProductResponse> => {
+  const getProducts = async ({ params } : paramsProps): Promise<ProductResponse> => {
     try {
       
-      const { page = 1, perPage = 12, search, status  , category} = params;
+      const { page = 1, perPage = 12, search, status  , category , free_shipping} = params;
       const res = await axios.get<ProductResponse>('/api/products', {
         params: {
           page,
           perPage,
-          
+            
           search: search ?? undefined,
           status: Array.isArray(status) ? status.join(',') : status ?? undefined,
           category: Array.isArray(category) ? category.join(',') : category ?? undefined,
+          free_shipping: free_shipping ?? false,
         },
       });
       return res.data;

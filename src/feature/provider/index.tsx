@@ -21,7 +21,7 @@ import { ModalProvider } from './ContextProvider';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
  const isMobile = useIsMobile()
-const disable = ["/",   '/products/:path*']
+const disable = ["/",   '/products']
   const paths = usePathname()
 
     return (
@@ -61,7 +61,7 @@ const disable = ["/",   '/products/:path*']
                             disable.includes(paths) && '  py-5 '
                         )}
                     >
-                        <div className={cn("mx-auto flex flex-col gap-10     h-full w-full", 
+                        <div className={cn("mx-auto flex flex-col gap-10   lg:gap-20   h-full w-full", 
 
 
 

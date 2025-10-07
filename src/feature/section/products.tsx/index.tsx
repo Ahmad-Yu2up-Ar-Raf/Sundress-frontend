@@ -1,44 +1,36 @@
 "use client";
 import React, { useEffect } from "react";
-import InfiniteScroll from "@/components/ui/fragments/infinite-scroll";
 
 import { ProductsSchema } from "@/lib/validations/index.t";
 import { ProductCard } from "@/components/ui/Product-card";
 import { BouncingDots } from "@/components/molecule-ui/bouncing-dots";
 import { cn } from "@/lib/utils";
 import {useProducts } from "@/hooks/actions/useProducts";
-
-
-
-
-import { useIsMobile } from "@/hooks/use-mobile";
-
 import { useState } from "react";
 import { SkeletonCard } from "@/components/ui/fragments/CardSkeletons";
+import { paramsProps } from "@/types";
 
-export interface Meta {
-  current_page: number;
-  last_page: number;
-  total: number;
-  per_page: number;
-  
-}
 
-type componentsProps = {
-   params?: { 
-    page?: number; 
-    perPage?: number; 
-    search?: string; 
-    status?: string | string[] 
-    category?: string | string[] 
-  } 
-}
-const InfiniteScrollDemo = ({  params }: componentsProps) => {
- const [products, setProducts] = useState<ProductsSchema[]>([]);
+const InfiniteScrollDemo = ({  params }: paramsProps) => {
+  const [products, setProducts] = useState<ProductsSchema[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [areMoreProducts, setAreMoreProducts] = useState(true);
+  const [isWhistlist, setWistlist] = useState<boolean | null>(null);
+  
+
+
+  const updateProduct = (productId: number | undefined, isWishlisted: boolean) => {
+    setProducts(currentProducts => 
+      currentProducts.map(product => 
+        product.id === productId 
+          ? { ...product, is_whislisted: isWishlisted }
+          : product
+      )
+    );
+  };
+
 
   const getProducts = async () => {
     setLoading(true);
@@ -71,7 +63,7 @@ const InfiniteScrollDemo = ({  params }: componentsProps) => {
     if (areMoreProducts) {
       getProducts();
     }
-  }, [page, areMoreProducts ]);
+  }, [page, areMoreProducts , isWhistlist]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,20 +84,25 @@ const InfiniteScrollDemo = ({  params }: componentsProps) => {
   }, [loading ]);
 
 
-
   return (
   <>
     <main className=" px-4  xl:px-0  grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4  gap-y-6 gap-x-1  sm:gap-y-10 xl:gap-x-2.5  ">
         {products.map((product ,i) => 
     
 
-          <ProductCard Product={product} key={i}/>
-
+    <ProductCard
+    key={i}
+    className=" min-h-[15em]"
+    Product={product}
+    isWhistlist={isWhistlist}
+    setWhistlist={setWistlist}
+    onWishlistChange={(isWishlisted) => updateProduct(product.id, isWishlisted)}
+  />
         )}
         </main>
           {(loading && products.length > 0) && <BouncingDots  className={cn(" bg-primary my-10 ")}/>}
           {(loading && products.length === 0) && (
-             <div className=" px-4  xl:px-0  grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4  gap-y-9 gap-x-3  sm:gap-y-10 xl:gap-x-2.5 ">
+             <div className=" px-4  md:px-0  grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4  gap-y-9 gap-x-3  sm:gap-y-10 xl:gap-x-2.5 ">
             
                    <SkeletonCard/>
                    <SkeletonCard/>
